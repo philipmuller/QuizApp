@@ -17,4 +17,15 @@ void main() {
 
     expect(question, isA<Question>());
   });
+
+  test('Calling checkAnswer() returns a bool.', () async {
+
+    final topics = await QuizService.getTopics();
+    final topic = topics.first;
+    final question = await QuizService.getQuestion(topic);
+
+    final answer = await QuizService.checkAnswer(question, 0);
+
+    expect(answer, isA<bool>());
+  });
 }

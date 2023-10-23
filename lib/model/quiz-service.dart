@@ -47,8 +47,11 @@ class QuizService extends Object {
     }
 
     final answer = question.choices[answerIndexes.first];
+    print("Answer is: $answer");
     final uri = Uri.https(authority, question.answerPath);
-    final response = await http.post(uri, body: json.encode(answer));
+    print("URI is: $uri");
+    print("JSON is: ${json.encode({"answer": answer})}");
+    final response = await http.post(uri, body: json.encode({"answer": answer}));
 
     if (response.statusCode == 200) {
       final Map parsedMap = json.decode(response.body);
