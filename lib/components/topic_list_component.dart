@@ -39,7 +39,7 @@ class TopicList extends ConsumerWidget {
   Widget topicCell(Topic topic, BuildContext context) {
 
     void handleTap() {
-      context.go("/topic/question/", extra: topic);
+      context.push("/topic/question/", extra: topic);
     }
 
     return GestureDetector(
