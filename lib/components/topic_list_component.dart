@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:quizz_app/model/topic.dart';
 import 'package:flutter/material.dart';
-import 'package:quizz_app/model/quiz-service.dart';
+import 'package:quizz_app/model/quiz_service.dart';
 
 class TopicList extends ConsumerWidget {
 
