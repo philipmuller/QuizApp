@@ -31,10 +31,16 @@ class StatisticsPage extends StatelessWidget {
   Widget statsBuilder(BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
     if (snapshot.hasData) {
       final statBundle = snapshot.data![0] as StatBundle;
-
       final topics = snapshot.data![1] as List<Topic>;
 
-      const gridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(maxCrossAxisExtent: 200, mainAxisSpacing: 10.0, crossAxisSpacing: 10.0, childAspectRatio: 1.0);
+      final mediaQuery = MediaQuery.of(context);
+
+      final gridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: (mediaQuery.size.width / 2.0),
+        mainAxisExtent: (mediaQuery.size.width / 2.0),
+        mainAxisSpacing: 10.0, 
+        crossAxisSpacing: 10.0, 
+        childAspectRatio: 1.0);
 
       return Padding(
         padding: EdgeInsets.symmetric(horizontal: 20), 
@@ -47,14 +53,6 @@ class StatisticsPage extends StatelessWidget {
           gridDelegate: gridDelegate),)
         
       ]));
-    } else {
-      return const Text("Loading...");
-    }
-  }
-
-  Widget topicStatsBuilder(BuildContext context, AsyncSnapshot<StatBundle> snapshot) {
-    if (snapshot.hasData) {
-      return statCell(context, snapshot.data!, false);
     } else {
       return const Text("Loading...");
     }
@@ -82,11 +80,11 @@ class StatisticsPage extends StatelessWidget {
         color: Theme.of(context).colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(15),
         ),
-      constraints: BoxConstraints(maxHeight: expanded ? 200 : 150),
-      padding: EdgeInsets.all(expanded ? 25 : 15),
+      padding: EdgeInsets.all(25),
       child: Flex(direction: expanded ? Axis.horizontal : Axis.vertical, mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           chart(context, noAttempts ? "--" : "$percentage%", dataMap, expanded),
+          Spacer(flex: 1),
           Padding(padding: EdgeInsets.only(left: expanded ? 25 : 0), child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center,
             children: expanded ? [
               Text("Total: $attemptsCount", style: Theme.of(context).textTheme.bodyLarge),
@@ -102,7 +100,7 @@ class StatisticsPage extends StatelessWidget {
   }
 
   Widget chart(BuildContext context, String centerText, Map<String, double> dataMap, bool expanded) {
-    return Expanded(child: PieChart(
+    return Expanded(flex: 15, child: PieChart(
             chartType: ChartType.ring,
             ringStrokeWidth: expanded ? 20 : 10,
             centerText: centerText,
@@ -114,22 +112,20 @@ class StatisticsPage extends StatelessWidget {
             dataMap: dataMap));
   }
 
-  Widget topicsBuilder(BuildContext context, AsyncSnapshot<List<Topic>> snapshot) {
-    if (snapshot.hasData) {
-      return Column(
-        children: snapshot.data!.map((topic) => topicStatCell(context, topic)).toList()
-      );
-    } else {
-      return const Text("Loading...");
-    }
-  }
-
   Widget topicStatCell(BuildContext context, Topic topic) {
     var localStats = getStats(topic: topic);
 
     return Column(children: [
-      Text(topic.title, style: Theme.of(context).textTheme.labelSmall),
-      FutureBuilder(future: localStats, builder: topicStatsBuilder)
+      Text(topic.title, style: Theme.of(context).textTheme.labelLarge, overflow: TextOverflow.ellipsis,),
+      Expanded(flex: 1, child: FutureBuilder(future: localStats, builder: topicStatsBuilder))
       ]);
+  }
+
+  Widget topicStatsBuilder(BuildContext context, AsyncSnapshot<StatBundle> snapshot) {
+    if (snapshot.hasData) {
+      return statCell(context, snapshot.data!, false);
+    } else {
+      return const Text("Loading...");
+    }
   }
 }
