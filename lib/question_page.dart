@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:quizz_app/model/question.dart';
 import 'package:quizz_app/model/quiz_service.dart';
-import 'package:quizz_app/components/topic_list_component.dart';
 import 'package:quizz_app/components/page_wrapper.dart';
 import 'package:quizz_app/model/stats_service.dart';
 import 'package:quizz_app/model/topic.dart';

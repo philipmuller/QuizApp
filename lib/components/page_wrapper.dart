@@ -17,8 +17,8 @@ class PageWrapper extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.bar_chart),
             onPressed: () {
-              showModalBottomSheet(context: context, builder: (BuildContext context) {
-                return StatisticsPage();
+              showModalBottomSheet(context: context, isScrollControlled: true, builder: (BuildContext context) {
+                return FractionallySizedBox(heightFactor: 0.8, child: StatisticsPage());
               },
               constraints: BoxConstraints(minWidth: double.infinity, minHeight: 200),
               showDragHandle: true);
