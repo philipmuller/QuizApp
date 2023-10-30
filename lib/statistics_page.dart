@@ -1,38 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:quizz_app/model/topic.dart';
-import 'package:quizz_app/model/quiz_service.dart';
+import 'package:quizz_app/model/stat_block.dart';
 import 'package:quizz_app/model/stats_service.dart';
 import 'package:pie_chart/pie_chart.dart';
 
-class StatBundle {
-  final int attemptsCount;
-  final int correctAnswersCount;
-
-  StatBundle(this.attemptsCount, this.correctAnswersCount);
-}
-
 class StatisticsPage extends StatelessWidget {
-
-  Future<StatBundle> getStats({Topic? topic}) async {
-    var attemptsCount = await StatsService.getCount(type: StatType.attemptsCount, topic: topic);
-    var correctAnswersCount = await StatsService.getCount(type: StatType.correctAnswersCount, topic: topic);
-
-    return StatBundle(attemptsCount, correctAnswersCount);
-  }
 
   @override
   Widget build(BuildContext context) {
-    var global = getStats();
-    var topics = QuizService.getTopics();
+    var stats = StatsService.getAllStats();
 
-    return FutureBuilder(future: Future.wait([global, topics]), builder: statsBuilder);
+    return FutureBuilder(future: stats, builder: statsBuilder);
   }
 
-  Widget statsBuilder(BuildContext context, AsyncSnapshot<List<dynamic>> snapshot) {
+  Widget statsBuilder(BuildContext context, AsyncSnapshot<List<StatBlock>> snapshot) {
     if (snapshot.hasData) {
-      final statBundle = snapshot.data![0] as StatBundle;
-      final topics = snapshot.data![1] as List<Topic>;
-
+      final stats = snapshot.data!;
       final mediaQuery = MediaQuery.of(context);
 
       final gridDelegate = SliverGridDelegateWithMaxCrossAxisExtent(
@@ -42,26 +24,33 @@ class StatisticsPage extends StatelessWidget {
         crossAxisSpacing: 10.0, 
         childAspectRatio: 1.0);
 
-      return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20), 
+      if (stats.isNotEmpty) {
+        return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20), 
         child: CustomScrollView(slivers: [
-        SliverList(delegate: SliverChildListDelegate([
-          statCell(context, statBundle, true),
-        ])),
-        SliverPadding(padding: EdgeInsets.only(top: 20), sliver: SliverGrid(
-          delegate: SliverChildBuilderDelegate((context, index) => topicStatCell(context, topics[index]), childCount: topics.length), 
-          gridDelegate: gridDelegate),)
+          SliverList(delegate: SliverChildListDelegate([statCell(context, stats[0], true)])),
+          SliverPadding(
+            padding: const EdgeInsets.only(top: 20), 
+            sliver: SliverGrid(
+              delegate: SliverChildBuilderDelegate((context, index) => topicStatCell(context, stats[index+1]), childCount: stats.length - 1), 
+              gridDelegate: gridDelegate
+            )
+          ),
+        ]));
         
-      ]));
+      } else {
+        return const Text("No topics");
+      }
+      
     } else {
       return const Text("Loading...");
     }
   }
 
-  Widget statCell(BuildContext context, StatBundle stats, bool expanded) {
+  Widget statCell(BuildContext context, StatBlock stats, bool expanded) {
     
-    final attemptsCount = stats.attemptsCount;
-    final correctAnswersCount = stats.correctAnswersCount;
+    final attemptsCount = stats.attempts;
+    final correctAnswersCount = stats.correctAnswers;
 
     final noAttempts = attemptsCount == 0;
 
@@ -112,20 +101,10 @@ class StatisticsPage extends StatelessWidget {
             dataMap: dataMap));
   }
 
-  Widget topicStatCell(BuildContext context, Topic topic) {
-    var localStats = getStats(topic: topic);
-
+  Widget topicStatCell(BuildContext context, StatBlock stats) {
     return Column(children: [
-      Text(topic.title, style: Theme.of(context).textTheme.labelLarge, overflow: TextOverflow.ellipsis,),
-      Expanded(flex: 1, child: FutureBuilder(future: localStats, builder: topicStatsBuilder))
+      Text(stats.title ?? "", style: Theme.of(context).textTheme.labelLarge, overflow: TextOverflow.ellipsis),
+      Expanded(flex: 1, child: statCell(context, stats, false))
       ]);
-  }
-
-  Widget topicStatsBuilder(BuildContext context, AsyncSnapshot<StatBundle> snapshot) {
-    if (snapshot.hasData) {
-      return statCell(context, snapshot.data!, false);
-    } else {
-      return const Text("Loading...");
-    }
   }
 }
