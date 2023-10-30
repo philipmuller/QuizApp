@@ -49,7 +49,7 @@ class HomePage extends ConsumerWidget {
       onTap: handleTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primaryContainer,
+          color: Theme.of(context).colorScheme.secondaryContainer,
           borderRadius: BorderRadius.circular(15),
           ),
         padding: const EdgeInsets.all(15),
