@@ -5,6 +5,7 @@ import 'package:quizz_app/model/quiz_service.dart';
 import 'package:quizz_app/components/page_wrapper.dart';
 import 'package:quizz_app/model/stats_service.dart';
 import 'package:quizz_app/model/topic.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 enum SelectionState { correct, incorrect, none }
 
@@ -40,7 +41,7 @@ class QuestionPage extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(height: 20.0),
-          questionCard(question.text, context),
+          questionCard(question.text, question.imagePath, context),
           const SizedBox(height: 40.0),
           questionChoices(context, ref, question.choices),
           const SizedBox(height: 20.0),
@@ -81,9 +82,9 @@ class QuestionPage extends ConsumerWidget {
     );
   }
 
-  Widget questionCard(String text, BuildContext context) {
+  Widget questionCard(String text, String? imagePath, BuildContext context) {
     return Container(
-      constraints: const BoxConstraints.expand(height: 250),
+      constraints: const BoxConstraints(minHeight: 250),
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -94,7 +95,8 @@ class QuestionPage extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(text, style: Theme.of(context).textTheme.apply(bodyColor: Colors.black87).titleSmall, textAlign: TextAlign.center),
+          if (imagePath != null) ClipRRect(borderRadius: BorderRadius.circular(10), child: FadeInImage.memoryNetwork(placeholder: kTransparentImage, image: imagePath)),
+          Padding(padding: EdgeInsets.only(top: (imagePath != null) ? 15 : 0), child: Text(text, style: Theme.of(context).textTheme.apply(bodyColor: Colors.black87).titleSmall, textAlign: TextAlign.center)),
         ],
       ),
     );
