@@ -34,8 +34,34 @@ class StatsService {
     if (topic == null) {
       return StatBlock(attempts: await _getCount(type: StatType.attemptsCount), correctAnswers: await _getCount(type: StatType.correctAnswersCount));
     } else {
-      return StatBlock(title: topic.title, attempts: await _getCount(type: StatType.attemptsCount, topic: topic), correctAnswers: await _getCount(type: StatType.correctAnswersCount, topic: topic));
+      return StatBlock(topic: topic, attempts: await _getCount(type: StatType.attemptsCount, topic: topic), correctAnswers: await _getCount(type: StatType.correctAnswersCount, topic: topic));
     }
+  }
+
+  static Future<List<Topic>> getLowestRankingTopics() async {
+    var all = (await getAllStats()).reversed.toList();
+    all.removeLast();
+
+    if (all.isNotEmpty) {
+      List<StatBlock> lowestRanking = [];
+
+      for (var statBlock in all) {
+        var last = lowestRanking.lastOrNull;
+        if (last == null) {
+          lowestRanking.add(statBlock);
+        } else {
+          if (statBlock.correctAnswers == last.correctAnswers) {
+            lowestRanking.add(statBlock);
+          } else {
+            break;
+          }
+        }
+      }
+      //this should be fine since we kicked the element that rapresents global stats that doesn't have a topic so topic should always be different than null. Still bad tho.
+      return lowestRanking.map((e) => e.topic!).toList();
+    }
+
+    return [];
   }
 
   static clearAll() async {

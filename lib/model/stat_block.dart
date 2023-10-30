@@ -1,8 +1,10 @@
+import 'package:quizz_app/model/topic.dart';
+
 class StatBlock {
-  final String? title;
+  final Topic? topic;
   final int attempts;
   final int correctAnswers;
   int get incorrectAnswers => attempts - correctAnswers;
 
-  StatBlock({this.title, required this.attempts, required this.correctAnswers});
+  StatBlock({this.topic, required this.attempts, required this.correctAnswers});
 }

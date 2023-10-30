@@ -103,7 +103,7 @@ class StatisticsPage extends StatelessWidget {
 
   Widget topicStatCell(BuildContext context, StatBlock stats) {
     return Column(children: [
-      Text(stats.title ?? "", style: Theme.of(context).textTheme.labelLarge, overflow: TextOverflow.ellipsis),
+      Text(stats.topic?.title ?? "", style: Theme.of(context).textTheme.labelLarge, overflow: TextOverflow.ellipsis),
       Expanded(flex: 1, child: statCell(context, stats, false))
       ]);
   }

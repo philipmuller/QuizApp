@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:quizz_app/model/question.dart';
 import 'package:quizz_app/model/quiz_service.dart';
 import 'package:quizz_app/components/page_wrapper.dart';
@@ -12,9 +13,9 @@ enum SelectionState { correct, incorrect, none }
 class QuestionPage extends ConsumerWidget {
 
   final Topic topic;
-  final int? questionId;
+  final bool genericPractice;
 
-  QuestionPage({required this.topic, this.questionId});
+  QuestionPage({required this.topic, this.genericPractice = false});
 
   final questionProvider = FutureProvider.family<Question, Topic>((ref, topic) async {
     return await QuizService.getQuestion(topic);
@@ -27,10 +28,10 @@ class QuestionPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final questionFuture = ref.watch(questionProvider(topic));
 
-    return PageWrapper(title: topic.title,
+    return PageWrapper(title: (genericPractice) ? "Generic Practice" : topic.title,
       body: questionFuture.when(
         data: (question) => questionView(question, context, ref),
-        loading: () => const CircularProgressIndicator(),
+        loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) => Text(error.toString()))
     );
   }
@@ -65,11 +66,25 @@ class QuestionPage extends ConsumerWidget {
 
   Widget continueButton(BuildContext context, WidgetRef ref) {
     return ElevatedButton( style: ElevatedButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.onPrimary, backgroundColor: Theme.of(context).colorScheme.primary),
-      onPressed: () {
+      onPressed: () async {
         ref.watch(isCorrectProvider.notifier).update((state) => null);
         ref.watch(correctSelectionProvider.notifier).update((state) => null);
         ref.watch(wrongSelectionsProvider.notifier).update((state) => []);
-        ref.refresh(questionProvider(topic));
+
+        Topic selectedTopic = topic;
+        String route = "/topic/question";
+
+        if (genericPractice) {
+          var lowestRanking = await StatsService.getLowestRankingTopics();
+          lowestRanking.shuffle();
+          selectedTopic = lowestRanking.first;
+          route = "/practice/question";
+        }
+
+        if (context.mounted) {
+          context.pushReplacement(route, extra: selectedTopic);
+        }
+        
       },
       child: const Text("Continue"),
     );

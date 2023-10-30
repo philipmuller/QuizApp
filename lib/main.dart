@@ -76,7 +76,7 @@ class MyApp extends StatelessWidget {
     routes: [
       GoRoute(path: '/', builder: (context, state) => HomePage()),
       GoRoute(path: '/topic/question', builder: (context, state) => QuestionPage(topic: state.extra as Topic)),
-      GoRoute(path: '/topic/question/:questionId', builder: (context, state) => QuestionPage(topic: state.extra as Topic, questionId: int.parse(state.pathParameters['questionId']!))),
+      GoRoute(path: '/practice/question', builder: (context, state) => QuestionPage(topic: state.extra as Topic, genericPractice: true)),
     ],
   );
 }

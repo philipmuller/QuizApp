@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:quizz_app/components/page_wrapper.dart';
+import 'package:quizz_app/model/stats_service.dart';
 import 'package:quizz_app/model/topic.dart';
 import 'package:quizz_app/model/quiz_service.dart';
 
@@ -35,25 +36,44 @@ class HomePage extends ConsumerWidget {
       mainAxisSpacing: 13, 
       crossAxisCount: 2, 
       shrinkWrap: false, 
-      children: topics.map((topic) => topicCell(topic, context)).toList());
+      children: [topicCell(context: context), ...topics.map((topic) => topicCell(topic: topic, context: context)).toList()]);
     }
   }
 
-  Widget topicCell(Topic topic, BuildContext context) {
+  Widget topicCell({Topic? topic = null, required BuildContext context}) {
 
-    void handleTap() {
-      context.push("/topic/question/", extra: topic);
+    final route = (topic == null) ? "/practice/question" : "/topic/question";
+
+
+    void handleTap() async {
+      var selectedTopic = topic;
+
+      if (topic == null) {
+        var topics = await StatsService.getLowestRankingTopics();
+        topics.shuffle();
+        selectedTopic = topics.first;
+      }
+      if (context.mounted) {
+        context.push(route, extra: selectedTopic);
+      }
     }
 
     return GestureDetector(
       onTap: handleTap,
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.secondaryContainer,
+          color: (topic == null) ? Theme.of(context).colorScheme.primaryContainer : Theme.of(context).colorScheme.secondaryContainer,
           borderRadius: BorderRadius.circular(15),
           ),
         padding: const EdgeInsets.all(15),
-        child: Text(topic.title),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+          topic?.title ?? "Generic Practice", 
+          style: Theme.of(context).textTheme.apply(bodyColor: (topic == null) ? Theme.of(context).colorScheme.onPrimaryContainer : Theme.of(context).colorScheme.onSecondaryContainer).bodyMedium
+          ),
+          const Spacer(),
+          if (topic == null) Text("🪄", style: Theme.of(context).textTheme.titleLarge)
+          ]),
       )
     );
   }
