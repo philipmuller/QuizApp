@@ -80,7 +80,7 @@ class StatisticsPage extends StatelessWidget {
               Text("Correct: $correctAnswersCount", style: Theme.of(context).textTheme.bodyLarge),
               Text("Incorrect: $incorrectAnswersCount", style: Theme.of(context).textTheme.bodyLarge),
             ] : [
-              Text("T: $attemptsCount, C: $correctAnswersCount, I: $incorrectAnswersCount", style: Theme.of(context).textTheme.bodySmall)
+              Text("$attemptsCount | +$correctAnswersCount -$incorrectAnswersCount", style: Theme.of(context).textTheme.labelMedium)
             ]
           ))
         ]
