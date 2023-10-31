@@ -11,6 +11,7 @@ class QuizService extends Object {
     final response = await http.get(uri);
     
     if (response.statusCode == 200) {
+      print("HERE IS THE RESPONSE: ${response.body}");
       final List parsedList = json.decode(response.body); 
       List<Topic> topicList = parsedList.map((topicMap) =>  Topic.fromJson(topicMap)).toList();
       return topicList;
@@ -52,6 +53,7 @@ class QuizService extends Object {
 
     if (response.statusCode == 200) {
       final Map parsedMap = json.decode(response.body);
+      print("HERE IS THE RESPONSE: ${response.body}");
       return parsedMap['correct'] as bool;
     } else {
       throw Exception("Failed to check answers");

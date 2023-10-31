@@ -1,5 +1,5 @@
 import 'package:quizz_app/model/question.dart';
-import 'package:quizz_app/model/quiz-service.dart';
+import 'package:quizz_app/model/quiz_service.dart';
 import 'package:quizz_app/model/topic.dart';
 import 'package:flutter_test/flutter_test.dart';
 

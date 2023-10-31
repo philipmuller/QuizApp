@@ -13,4 +13,14 @@ class Question extends Object {
         imagePath = json['image_url'] as String?,
         choices = List.from(json['options']),
         answerPath = json['answer_post_path'] as String;
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'question': text,
+      if (imagePath != null) 'image_url': imagePath,
+      'options': choices,
+      'answer_post_path': answerPath
+    };
+  }
 }

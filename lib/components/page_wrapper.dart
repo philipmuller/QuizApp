@@ -20,12 +20,12 @@ class PageWrapper extends StatelessWidget {
               showModalBottomSheet(context: context, isScrollControlled: true, builder: (BuildContext context) {
                 return FractionallySizedBox(heightFactor: 0.8, child: StatisticsPage());
               },
-              constraints: BoxConstraints(minWidth: double.infinity, minHeight: 200),
+              constraints:  const BoxConstraints(minWidth: double.infinity, minHeight: 200),
               showDragHandle: true);
             },
           )],
         ),
-      body: body
+      body: SafeArea(child: body),
     );
   }
 }

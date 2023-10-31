@@ -20,7 +20,7 @@ class HomePage extends ConsumerWidget {
     return PageWrapper(title: "Quizz App",
       body: topicFuture.when(
         data: (topics) => topicList(topics, context),
-        loading: () => const CircularProgressIndicator(),
+        loading: () => const Center(child: CircularProgressIndicator()),
         error: (error, stackTrace) => Text(error.toString()),
       )
     );
