@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:quizz_app/model/stat_block.dart';
-import 'package:quizz_app/model/stats_service.dart';
+import 'package:quiz_app/model/stat_block.dart';
+import 'package:quiz_app/model/stats_service.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 class StatisticsPage extends StatelessWidget {

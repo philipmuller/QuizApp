@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:quizz_app/statistics_page.dart';
+import 'package:quiz_app/statistics_page.dart';
 
 class PageWrapper extends StatelessWidget {
   final Widget body;

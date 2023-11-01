@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:quizz_app/home_page.dart';
+import 'package:quiz_app/home_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quizz_app/question_page.dart';
-import 'package:quizz_app/model/topic.dart';
+import 'package:quiz_app/question_page.dart';
+import 'package:quiz_app/model/topic.dart';
 
 void main() {
   runApp(ProviderScope(child: MyApp()));

@@ -1,7 +1,7 @@
-import 'package:quizz_app/model/topic.dart';
-import 'package:quizz_app/model/stat_block.dart';
+import 'package:quiz_app/model/topic.dart';
+import 'package:quiz_app/model/stat_block.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:quizz_app/model/quiz_service.dart';
+import 'package:quiz_app/model/quiz_service.dart';
 
 
 enum StatType { attemptsCount, correctAnswersCount }

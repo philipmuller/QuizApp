@@ -1,4 +1,4 @@
-import 'package:quizz_app/model/topic.dart';
+import 'package:quiz_app/model/topic.dart';
 
 class StatBlock {
   final Topic? topic;

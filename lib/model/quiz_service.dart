@@ -1,7 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:quizz_app/model/topic.dart';
-import 'package:quizz_app/model/question.dart';
+import 'package:quiz_app/model/topic.dart';
+import 'package:quiz_app/model/question.dart';
 
 class QuizService extends Object {
   static const authority = "dad-quiz-api.deno.dev";

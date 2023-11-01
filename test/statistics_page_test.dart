@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nock/nock.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quizz_app/question_page.dart';
-import 'package:quizz_app/statistics_page.dart';
+import 'package:quiz_app/question_page.dart';
+import 'package:quiz_app/statistics_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'test_utils.dart';
 

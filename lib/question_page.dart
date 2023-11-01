@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:quizz_app/model/question.dart';
-import 'package:quizz_app/model/quiz_service.dart';
-import 'package:quizz_app/components/page_wrapper.dart';
-import 'package:quizz_app/model/stats_service.dart';
-import 'package:quizz_app/model/topic.dart';
+import 'package:quiz_app/model/question.dart';
+import 'package:quiz_app/model/quiz_service.dart';
+import 'package:quiz_app/components/page_wrapper.dart';
+import 'package:quiz_app/model/stats_service.dart';
+import 'package:quiz_app/model/topic.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 enum SelectionState { correct, incorrect, none }

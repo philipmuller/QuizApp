@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nock/nock.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:quizz_app/main.dart';
+import 'package:quiz_app/main.dart';
 import 'test_utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
