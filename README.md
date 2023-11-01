@@ -1,6 +1,6 @@
-# quiz App
+# Quiz App
 
-quiz App is a simple Quiz application written in Flutter. It lets users interact with a series of questions on a variety of topics retreived from a [quiz API](https://dad-quiz-api.deno.dev/) and displays persistent all-time statistics on the user's progress. You can play with it [here](https://philipmuller.github.io/quizApp/). Please keep in mind that the app is currently optimized for mobile screen sizes only.
+Quiz App is a simple Quiz application written in Flutter. It lets users interact with a series of questions on a variety of topics retreived from a [quiz API](https://dad-quiz-api.deno.dev/) and displays persistent all-time statistics on the user's progress. You can play with it [here](https://philipmuller.github.io/quizApp/). Please keep in mind that the app is currently optimized for mobile screen sizes only.
 
 ## Key challenges
 

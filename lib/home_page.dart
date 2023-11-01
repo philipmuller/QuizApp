@@ -17,7 +17,7 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final topicFuture = ref.watch(topicProvider);
 
-    return PageWrapper(title: "quiz App",
+    return PageWrapper(title: "Quiz",
       body: topicFuture.when(
         data: (topics) => topicList(topics, context),
         loading: () => const Center(child: CircularProgressIndicator()),
