@@ -123,12 +123,21 @@ class QuestionPage extends ConsumerWidget {
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: choices.map((choice) => choiceButton(
+      children: choices.map((choice) => 
+      Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
+        choiceButton(
         context, 
         ref, 
         choice, 
         choices.indexOf(choice), 
-        correctSelection == choices.indexOf(choice) ? SelectionState.correct : incorrectSelections.contains(choices.indexOf(choice)) ? SelectionState.incorrect : SelectionState.none)).toList()
+        correctSelection == choices.indexOf(choice) ? 
+        SelectionState.correct : 
+        incorrectSelections.contains(choices.indexOf(choice)) ? 
+        SelectionState.incorrect : 
+        SelectionState.none
+        ),
+        const SizedBox(height: 10.0)
+      ])).toList()
     );
   }
 
