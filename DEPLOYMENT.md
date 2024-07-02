@@ -1,1 +1,1 @@
-Please keep in mind that the app is currently optimized for **mobile screen sizes only**. Here is the link to the deployment: [https://philipmuller.github.io/quizApp/](https://philipmuller.github.io/QuizApp/)
+Please keep in mind that the app is currently optimized for **mobile screen sizes only**. Here is the link to the deployment: [https://philipmuller.github.io/QuizApp/](https://philipmuller.github.io/QuizApp/)
