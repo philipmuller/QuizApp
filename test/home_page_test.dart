@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:nock/nock.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,6 +27,15 @@ void main() {
     for (var topic in topics) {
       expect(find.text(topic.title, skipOffstage: false), findsOneWidget);
     }
+  });
+
+  testWidgets("If the API returns an empty list, it displays \"No topics available\n.", (tester) async {
+    nock.get("/topics").reply(200, jsonEncode([]));
+
+    await tester.pumpWidget(ProviderScope(child: MyApp()));
+    await tester.pumpAndSettle();
+
+    expect(find.text("No topics available", skipOffstage: false), findsOneWidget);
   });
 
   testWidgets("Opening application shows generic practice option.", (tester) async {

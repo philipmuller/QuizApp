@@ -28,28 +28,33 @@ class QuestionPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final questionFuture = ref.watch(questionProvider(topic));
 
-    return PageWrapper(title: (genericPractice) ? "Generic Practice" : topic.title,
+    return PageWrapper(
+      title: (genericPractice) ? "Generic Practice" : topic.title,
       body: questionFuture.when(
         data: (question) => questionView(question, context, ref),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stackTrace) => Text(error.toString()))
+        error: (error, stackTrace) => Text(error.toString())
+      )
     );
   }
 
   Widget questionView(Question question, BuildContext context, WidgetRef ref) {
-    return Center(child: Padding(padding: EdgeInsets.symmetric(horizontal: 20), child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(height: 20.0),
-          questionCard(question.text, question.imagePath, context),
-          const SizedBox(height: 40.0),
-          questionChoices(context, ref, question.choices),
-          const SizedBox(height: 20.0),
-          continueField(context, ref)
-        ]
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            questionCard(question.text, question.imagePath, context),
+            const SizedBox(height: 40.0),
+            questionChoices(context, ref, question.choices),
+            const SizedBox(height: 20.0),
+            continueField(context, ref)
+          ]
+        )
       )
-    ));
+    );
   }
 
   Widget continueField(BuildContext context, WidgetRef ref) {
@@ -110,8 +115,22 @@ class QuestionPage extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          if (imagePath != null) ClipRRect(borderRadius: BorderRadius.circular(10), child: FadeInImage.memoryNetwork(placeholder: kTransparentImage, image: imagePath)),
-          Padding(padding: EdgeInsets.only(top: (imagePath != null) ? 15 : 0), child: Text(text, style: Theme.of(context).textTheme.apply(bodyColor: Colors.black87).titleSmall, textAlign: TextAlign.center)),
+          if (imagePath != null) 
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10), 
+              child: FadeInImage.memoryNetwork(
+                placeholder: kTransparentImage, 
+                image: imagePath,
+              )
+            ),
+          Padding(
+            padding: EdgeInsets.only(top: (imagePath != null) ? 15 : 0), 
+            child: Text(
+              text, 
+              style: Theme.of(context).textTheme.titleMedium?.apply(color: Colors.black87), 
+              textAlign: TextAlign.center
+            )
+          ),
         ],
       ),
     );
